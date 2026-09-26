@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="estilo.css" />
+    <title>Login do Professor</title>
+  </head>
+  <body>
+    <div class="page-shell">
+      <h1>Faça o seu login</h1>
+
+      <div class="logo-wrap">
+        <img src="Imagens/logo.png" alt="logo" />
+      </div>
+
+      <form id="loginForm" class="form-container">
+        <input id="loginRa" type="text" placeholder="Digite seu RA" required />
+        <input
+          id="loginSenha"
+          type="password"
+          placeholder="Digite sua senha"
+          required
+        />
+
+        <div class="button-group">
+          <button type="submit" class="btn-login">Logar</button>
+        </div>
+
+        <p id="loginStatus" class="status-message" style="display: none"></p>
+
+        <div class="link-row">
+          <a href="CadProf.html" class="link-button">Criar conta</a>
+        </div>
+      </form>
+    </div>
+
+    <script src="app.js"></script>
+  </body>
+</html>

@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="estilo2.css" />
+    <title>Quadro de Comunicados</title>
+  </head>
+  <body>
+    <div class="quadro-board">
+      <div class="quadro-header">
+        <h1 class="quadro-titulo">Comunicados</h1>
+        <button type="button" id="logoutButton" class="btn-logout">Sair</button>
+      </div>
+
+      <form id="avisoForm" class="form-aviso">
+        <input
+          id="avisoMensagem"
+          type="text"
+          placeholder="Mensagem do comunicado"
+          required
+        />
+        <select id="avisoCurso">
+          <option value="todos">Todos</option>
+          <option value="ads">ADS</option>
+          <option value="dsm">DSM</option>
+          <option value="engenharia">Engenharia</option>
+        </select>
+        <select id="avisoCategoria">
+          <option value="aviso_geral">Aviso geral</option>
+          <option value="aula">Aula</option>
+          <option value="prova">Prova</option>
+          <option value="evento_interno">Evento interno</option>
+          <option value="evento_externo">Evento externo</option>
+        </select>
+        <input
+          id="avisoSemestre"
+          type="number"
+          min="1"
+          max="12"
+          placeholder="Semestre (opcional)"
+        />
+        <input
+          id="avisoLink"
+          type="url"
+          placeholder="Link externo (opcional)"
+        />
+        <input
+          id="avisoDataExpiracao"
+          type="datetime-local"
+          placeholder="Data de expiração"
+        />
+        <button type="submit" class="btn-add-aviso">+ Adicionar Aviso</button>
+      </form>
+
+      <form id="filtroForm" class="filtro-form">
+        <select id="filtroCurso">
+          <option value="">Todos os cursos</option>
+          <option value="todos">Todos</option>
+          <option value="ads">ADS</option>
+          <option value="dsm">DSM</option>
+          <option value="engenharia">Engenharia</option>
+        </select>
+        <input
+          id="filtroSemestre"
+          type="number"
+          min="1"
+          max="12"
+          placeholder="Semestre"
+        />
+        <select id="filtroCategoria">
+          <option value="">Todas as categorias</option>
+          <option value="aviso_geral">Aviso geral</option>
+          <option value="aula">Aula</option>
+          <option value="prova">Prova</option>
+          <option value="evento_interno">Evento interno</option>
+          <option value="evento_externo">Evento externo</option>
+        </select>
+        <button type="submit" class="btn-filtrar">Filtrar</button>
+      </form>
+
+      <div id="quadroMensagens" class="quadro-mensagens"></div>
+      <p id="avisoStatus" class="status-message" style="display: none"></p>
+    </div>
+
+    <script src="app.js"></script>
+  </body>
+</html>

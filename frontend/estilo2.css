@@ -1,0 +1,287 @@
+body {
+  background-color: #d0abab;
+  margin: 0;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  transition: background-color 0.5s ease;
+}
+
+@keyframes fadeInBoard {
+  from {
+    opacity: 0;
+    transform: scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.quadro-board {
+  background-image: url("Imagens/quadro.png");
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  background-position: center;
+  width: 100%;
+  max-width: 1000px;
+  min-height: 700px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-sizing: border-box;
+  padding: 85px 70px 70px;
+  margin: 20px auto;
+  filter: drop-shadow(0 25px 40px rgba(0, 0, 0, 0.4));
+  animation: fadeInBoard 0.6s ease forwards;
+}
+
+.quadro-header {
+  width: 90%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+  border-bottom: 2px dashed rgba(255, 255, 255, 0.3);
+  padding-bottom: 15px;
+}
+
+.quadro-titulo {
+  color: #ffffff;
+  font-size: clamp(26px, 5vw, 38px);
+  font-weight: 700;
+  margin: 0;
+  text-shadow: 2px 3px 5px rgba(0, 0, 0, 0.6);
+  letter-spacing: 1px;
+}
+
+.btn-logout {
+  background: rgba(0, 0, 0, 0.4);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-radius: 8px;
+  padding: 10px 20px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-logout:hover {
+  background: #b65050;
+  border-color: #b65050;
+  transform: translateY(-2px);
+}
+
+.form-aviso,
+.filtro-form {
+  width: 90%;
+  display: grid;
+  gap: 15px;
+  margin-bottom: 25px;
+  background: rgba(0, 0, 0, 0.25);
+  padding: 24px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.form-aviso {
+  grid-template-columns: 1fr 1fr;
+}
+.form-aviso input:first-child {
+  grid-column: 1 / -1;
+}
+.form-aviso input#avisoDataExpiracao {
+  grid-column: 1 / -1;
+}
+.form-aviso button {
+  grid-column: 1 / -1;
+  margin-top: 5px;
+}
+
+.filtro-form {
+  grid-template-columns: 1fr 1fr 1fr auto;
+  align-items: center;
+}
+
+.form-aviso input,
+.form-aviso select,
+.filtro-form input,
+.filtro-form select {
+  padding: 14px 16px;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  background: rgba(255, 255, 255, 0.95);
+  transition: all 0.2s ease;
+  width: 100%;
+  color: #2c3e50;
+  box-sizing: border-box;
+}
+
+.form-aviso input:focus,
+.form-aviso select:focus,
+.filtro-form input:focus,
+.filtro-form select:focus {
+  outline: none;
+  background: #ffffff;
+  box-shadow: 0 0 0 3px rgba(123, 147, 182, 0.5);
+}
+
+.btn-add-aviso,
+.btn-filtrar {
+  background: linear-gradient(135deg, #4c6a9a 0%, #3a5480 100%);
+  border: 1px solid #3a5480;
+  color: #fff;
+  font-weight: bold;
+  border-radius: 8px;
+  padding: 15px 18px;
+  font-size: 15px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.btn-add-aviso:hover,
+.btn-filtrar:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
+  filter: brightness(1.1);
+}
+
+.quadro-mensagens::-webkit-scrollbar {
+  width: 8px;
+}
+.quadro-mensagens::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.15);
+  border-radius: 10px;
+}
+.quadro-mensagens::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.4);
+  border-radius: 10px;
+}
+.quadro-mensagens::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.6);
+}
+
+.quadro-mensagens {
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-height: 420px;
+  overflow-y: auto;
+  padding-right: 12px;
+}
+
+@keyframes popIn {
+  from {
+    opacity: 0;
+    transform: scale(0.98) translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.mensagem-card {
+  background-color: #ffffff;
+  color: #2c3e50;
+  text-align: left;
+  padding: 20px;
+  border-radius: 10px;
+  border-left: 6px solid #4c6a9a;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  animation: popIn 0.3s ease forwards;
+}
+
+.mensagem-card strong {
+  display: block;
+  margin-bottom: 8px;
+  color: #34495e;
+  font-size: 14px;
+  letter-spacing: 0.5px;
+}
+
+.mensagem-card p {
+  margin: 0 0 12px;
+  font-size: 17px;
+  line-height: 1.5;
+  color: #1a1a1a;
+}
+
+.mensagem-card small {
+  display: inline-block;
+  background: #f1f2f6;
+  padding: 5px 12px;
+  border-radius: 20px;
+  color: #576574;
+  margin-bottom: 14px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.card-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.mini-btn {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 6px;
+  background: #7b93b6;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.mini-btn:hover {
+  background: #5f7599;
+}
+.mini-btn.danger {
+  background: #e74c3c;
+}
+.mini-btn.danger:hover {
+  background: #c0392b;
+}
+
+.status-message {
+  margin-top: 15px;
+  width: 90%;
+  text-align: center;
+  font-weight: bold;
+  color: #ffffff;
+  background: rgba(0, 0, 0, 0.6);
+  padding: 10px;
+  border-radius: 8px;
+}
+
+@media (max-width: 768px) {
+  .quadro-board {
+    padding: 60px 20px 40px;
+    margin: 10px;
+    width: calc(100% - 20px);
+    border-radius: 12px;
+    background-size: cover;
+  }
+  .quadro-header,
+  .form-aviso,
+  .filtro-form,
+  .quadro-mensagens,
+  .status-message {
+    width: 100%;
+  }
+  .form-aviso {
+    grid-template-columns: 1fr;
+  }
+  .filtro-form {
+    grid-template-columns: 1fr;
+  }
+  .card-actions {
+    flex-direction: column;
+  }
+  .mini-btn {
+    width: 100%;
+  }
+}
