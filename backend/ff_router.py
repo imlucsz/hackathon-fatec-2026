@@ -145,6 +145,7 @@ def buscar_comunicado(comunicado_id: int, db: Session = Depends(get_db)):
 @router.patch("/comunicados/{comunicado_id}/marcar-enviado")
 def marcar_como_enviado(
     comunicado_id: int,
+    payload: Optional[sm.ComunicadoAtualizar] = None,
     db: Session = Depends(get_db),
     professor: sm.Professor = Depends(obter_professor_atual),
 ):
@@ -153,9 +154,18 @@ def marcar_como_enviado(
     if not comunicado:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Comunicado não encontrado")
 
-    comunicado.enviado = True
+    if payload is not None and payload.enviado is not None:
+        comunicado.enviado = payload.enviado
+    else:
+        comunicado.enviado = True
+
     db.commit()
-    return {"status": "sucesso", "mensagem": "Comunicado marcado como enviado"}
+    db.refresh(comunicado)
+    return {
+        "status": "sucesso",
+        "mensagem": "Comunicado marcado como enviado" if comunicado.enviado else "Comunicado reaberto",
+        "enviado": comunicado.enviado,
+    }
 
 @router.put("/comunicados/{comunicado_id}", response_model=sm.ComunicadoResposta)
 def atualizar_comunicado(
@@ -324,9 +334,6 @@ def chat_ia(payload: sm.ChatRequest):
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Mensagem não pode estar vazia")
 
     try:
-        # Implementação mínima compatível com o contrato do chatbot. Se a SDK do Gemini estiver disponível
-        # e a chave estiver configurada, a resposta real do modelo será usada; caso contrário, responde
-        # com uma mensagem amigável sem quebrar a API.
         api_key = os.getenv("GEMINI_API_KEY")
 
         if not api_key:
