@@ -1,0 +1,107 @@
+/* Configuração global e do corpo */
+body {
+background: linear-gradient(135deg, #D0ABAB 0%, #b89292 100%);
+font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+min-height: 100vh;
+margin: 0;
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: center;
+}
+
+/* Estilo para imagens */
+img {
+width: 400px;
+height: 250px;
+object-fit: cover;
+border-radius: 8px;
+box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+margin-bottom: 10px;
+}
+
+
+.form-container {
+display: flex;
+flex-direction: column;
+gap: 15px; 
+max-width: 320px; 
+width: 100%;
+margin: 20px auto;
+padding: 25px;
+background-color: #ffffff;
+border-radius: 12px;
+box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+box-sizing: border-box;
+}
+
+.form-container h2 {
+text-align: center;
+color: #4a3b3b;
+margin-top: 0;
+margin-bottom: 5px;
+font-size: 22px;
+}
+
+
+.form-container input,
+.form-container select {
+padding: 12px;
+font-size: 15px;
+border: 1px solid #dcd6d6;
+border-radius: 6px;
+width: 100%; 
+box-sizing: border-box; 
+background-color: #faf8f8;
+transition: all 0.3s ease;
+}
+
+
+.form-container input:focus,
+.form-container select:focus {
+outline: none;
+border-color: #b87373;
+background-color: #ffffff;
+box-shadow: 0 0 0 3px rgba(184, 115, 115, 0.15);
+}
+
+
+.button-group {
+display: flex;
+gap: 10px; 
+}
+
+
+.button-group button {
+flex: 1;
+padding: 12px;
+font-size: 15px;
+font-weight: bold;
+border: none;
+border-radius: 6px;
+cursor: pointer;
+transition: all 0.2s ease;
+box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+/* Botão de Login (Destaque principal) */
+.btn-login {
+background-color: #7b93b6;
+color: white;
+}
+
+.btn-login:hover {
+background-color: #637d9e;
+transform: translateY(-1px);
+}
+
+/* Botão de Cadastro (Secundário/Contraste) */
+.btn-register {
+background-color: #d97777;
+color: white;
+}
+
+.btn-register:hover {
+background-color: #c46262;
+transform: translateY(-1px);
+}
