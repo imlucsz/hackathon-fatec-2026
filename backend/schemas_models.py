@@ -1,8 +1,8 @@
-from datetime import datetime
+from datetime import date, datetime
 from typing import Literal, Optional
 
 from pydantic import BaseModel, ConfigDict
-from sqlalchemy import Boolean, Column, DateTime, Integer, String
+from sqlalchemy import Boolean, Column, Date, DateTime, Integer, String
 from sqlalchemy.sql import func
 
 from database import Base
@@ -96,6 +96,88 @@ class AlunoResposta(BaseModel):
 
     model_config = ConfigDict(from_attributes=True)
 
+class Aula(Base):
+    __tablename__ = "aulas"
+
+    id = Column(Integer, primary_key=True, index=True)
+    disciplina = Column(String, nullable=False)
+    professor = Column(String, nullable=True)
+    data = Column(Date, nullable=False, index=True)
+    horario = Column(String, nullable=True)
+    sala = Column(String, nullable=True)
+    curso = Column(String, nullable=False, index=True)
+    semestre = Column(Integer, nullable=False, index=True)
+
+class AulaCriar(BaseModel):
+    disciplina: str
+    professor: Optional[str] = None
+    data: date
+    horario: Optional[str] = None
+    sala: Optional[str] = None
+    curso: str
+    semestre: int
+
+class AulaResposta(AulaCriar):
+    id: int
+
+    model_config = ConfigDict(from_attributes=True)
+
+class Prova(Base):
+    __tablename__ = "provas"
+
+    id = Column(Integer, primary_key=True, index=True)
+    disciplina = Column(String, nullable=False)
+    data = Column(Date, nullable=False, index=True)
+    horario = Column(String, nullable=True)
+    sala = Column(String, nullable=True)
+    curso = Column(String, nullable=False, index=True)
+    semestre = Column(Integer, nullable=False, index=True)
+
+class ProvaCriar(BaseModel):
+    disciplina: str
+    data: date
+    horario: Optional[str] = None
+    sala: Optional[str] = None
+    curso: str
+    semestre: int
+
+class ProvaResposta(ProvaCriar):
+    id: int
+
+    model_config = ConfigDict(from_attributes=True)
+
+class Evento(Base):
+    __tablename__ = "eventos"
+
+    id = Column(Integer, primary_key=True, index=True)
+    titulo = Column(String, nullable=False)
+    descricao = Column(String, nullable=False)
+    data = Column(Date, nullable=False, index=True)
+    horario = Column(String, nullable=True)
+    local = Column(String, nullable=True)
+    tipo = Column(String, nullable=False, index=True)
+    link = Column(String, nullable=True)
+    data_expiracao = Column(Date, nullable=True)
+    curso = Column(String, nullable=True, index=True)
+    semestre = Column(Integer, nullable=True, index=True)
+
+class EventoCriar(BaseModel):
+    titulo: str
+    descricao: str
+    data: date
+    horario: Optional[str] = None
+    local: Optional[str] = None
+    tipo: Literal["interno", "externo"]
+    link: Optional[str] = None
+    data_expiracao: Optional[date] = None
+    curso: Optional[str] = None
+    semestre: Optional[int] = None
+
+class EventoResposta(EventoCriar):
+    id: int
+
+    model_config = ConfigDict(from_attributes=True)
+
 class Sugestao(Base):
     __tablename__ = "sugestoes"
 
@@ -107,7 +189,7 @@ class Sugestao(Base):
 
 class SugestaoCriar(BaseModel):
     usuario_id: str
-    curso: str
+    curso: Optional[str] = None
     mensagem: str
 
 class SugestaoResposta(SugestaoCriar):

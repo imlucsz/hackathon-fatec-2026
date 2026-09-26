@@ -1,5 +1,5 @@
 import os
-from datetime import datetime, timedelta, timezone
+from datetime import date, datetime, timedelta, timezone
 from typing import Optional
 
 import jwt
@@ -227,6 +227,96 @@ def listar_alunos(
 
     return query.order_by(sm.Aluno.id.asc()).all()
 
+def filtrar_por_aluno(query, modelo, curso: Optional[str], semestre: Optional[int]):
+    if curso:
+        query = query.filter(modelo.curso == curso.strip().lower())
+    if semestre is not None:
+        query = query.filter(modelo.semestre == semestre)
+    return query
+
+@router.get("/aulas/amanha", response_model=list[sm.AulaResposta])
+def listar_aulas_amanha(
+    db: Session = Depends(get_db),
+    curso: Optional[str] = Query(default=None),
+    semestre: Optional[int] = Query(default=None),
+):
+    amanha = date.today() + timedelta(days=1)
+    query = db.query(sm.Aula).filter(sm.Aula.data == amanha)
+    query = filtrar_por_aluno(query, sm.Aula, curso, semestre)
+    return query.order_by(sm.Aula.horario.asc()).all()
+
+@router.post("/aulas", response_model=sm.AulaResposta, status_code=status.HTTP_201_CREATED)
+def criar_aula(
+    aula: sm.AulaCriar,
+    db: Session = Depends(get_db),
+    professor: sm.Professor = Depends(obter_professor_atual),
+):
+    del professor
+    dados = aula.model_dump()
+    dados["curso"] = dados["curso"].strip().lower()
+    nova_aula = sm.Aula(**dados)
+    db.add(nova_aula)
+    db.commit()
+    db.refresh(nova_aula)
+    return nova_aula
+
+@router.get("/provas", response_model=list[sm.ProvaResposta])
+def listar_provas(
+    db: Session = Depends(get_db),
+    curso: Optional[str] = Query(default=None),
+    semestre: Optional[int] = Query(default=None),
+):
+    query = db.query(sm.Prova).filter(sm.Prova.data >= date.today())
+    query = filtrar_por_aluno(query, sm.Prova, curso, semestre)
+    return query.order_by(sm.Prova.data.asc(), sm.Prova.horario.asc()).all()
+
+@router.post("/provas", response_model=sm.ProvaResposta, status_code=status.HTTP_201_CREATED)
+def criar_prova(
+    prova: sm.ProvaCriar,
+    db: Session = Depends(get_db),
+    professor: sm.Professor = Depends(obter_professor_atual),
+):
+    del professor
+    dados = prova.model_dump()
+    dados["curso"] = dados["curso"].strip().lower()
+    nova_prova = sm.Prova(**dados)
+    db.add(nova_prova)
+    db.commit()
+    db.refresh(nova_prova)
+    return nova_prova
+
+@router.get("/eventos", response_model=list[sm.EventoResposta])
+def listar_eventos(
+    db: Session = Depends(get_db),
+    tipo: Optional[str] = Query(default=None, pattern="^(interno|externo)$"),
+    curso: Optional[str] = Query(default=None),
+    semestre: Optional[int] = Query(default=None),
+):
+    query = db.query(sm.Evento).filter(
+        sm.Evento.data >= date.today(),
+        (sm.Evento.data_expiracao.is_(None) | (sm.Evento.data_expiracao >= date.today())),
+    )
+    if tipo:
+        query = query.filter(sm.Evento.tipo == tipo)
+    query = filtrar_por_aluno(query, sm.Evento, curso, semestre)
+    return query.order_by(sm.Evento.data.asc()).all()
+
+@router.post("/eventos", response_model=sm.EventoResposta, status_code=status.HTTP_201_CREATED)
+def criar_evento(
+    evento: sm.EventoCriar,
+    db: Session = Depends(get_db),
+    professor: sm.Professor = Depends(obter_professor_atual),
+):
+    del professor
+    dados = evento.model_dump()
+    if dados["curso"]:
+        dados["curso"] = dados["curso"].strip().lower()
+    novo_evento = sm.Evento(**dados)
+    db.add(novo_evento)
+    db.commit()
+    db.refresh(novo_evento)
+    return novo_evento
+
 @router.post("/api/chat", response_model=sm.ChatResposta)
 def chat_ia(payload: sm.ChatRequest):
     mensagem = payload.mensagem.strip()
@@ -269,7 +359,7 @@ def chat_ia(payload: sm.ChatRequest):
 def criar_sugestao(sugestao: sm.SugestaoCriar, db: Session = Depends(get_db)):
     nova_sugestao = sm.Sugestao(
         usuario_id=sugestao.usuario_id,
-        curso=str(sugestao.curso).strip().lower(),
+        curso=(sugestao.curso or "todos").strip().lower(),
         mensagem=sugestao.mensagem,
     )
     db.add(nova_sugestao)

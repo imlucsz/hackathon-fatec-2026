@@ -4,3 +4,6 @@ fastapi
 uvicorn
 python-dotenv
 google-genai
+SQLAlchemy
+passlib
+PyJWT

@@ -1,23 +1,18 @@
-const fs = require('fs/promises');
-const path = require('path');
-
-const arquivoAlunos = process.env.ALUNOS_FILE || path.join(__dirname, '..', 'alunos.json');
+const axios = require('axios');
+const apiUrl = process.env.API_BASE_URL || process.env.API_URL || 'http://localhost:8000';
+const API_BASE_URL = apiUrl.replace(/\/api\/chat\/?$/, '').replace(/\/$/, '');
+const api = axios.create({
+  baseURL: API_BASE_URL,
+  timeout: Number(process.env.API_TIMEOUT || 15000),
+});
 
 function normalizar(valor) {
   return String(valor ?? '').trim().toLowerCase();
 }
 
-async function carregarAlunos() {
-  try {
-    const conteudo = await fs.readFile(arquivoAlunos, 'utf8');
-    const alunos = JSON.parse(conteudo);
-    return Array.isArray(alunos) ? alunos : [];
-  } catch (erro) {
-    if (erro.code !== 'ENOENT') {
-      console.error('[alunos] Não foi possível ler o cadastro local:', erro.message);
-    }
-    return [];
-  }
+async function carregarAlunos(params = {}) {
+  const resposta = await api.get('/alunos', { params });
+  return Array.isArray(resposta.data) ? resposta.data : [];
 }
 
 function corresponde(valorAluno, valorComunicado) {
@@ -28,12 +23,13 @@ function corresponde(valorAluno, valorComunicado) {
 }
 
 function telefoneParaJid(telefone) {
-  const numero = String(telefone ?? '').replace(/\D/g, '');
+  const identificador = String(telefone ?? '').trim();
+  if (identificador.includes('@')) return identificador;
+  const numero = identificador.replace(/\D/g, '');
   return numero ? `${numero}@s.whatsapp.net` : null;
 }
 
 async function listarAlunosDoComunicado(comunicado) {
-  const alunos = await carregarAlunos();
   const curso = comunicado.curso ?? comunicado.curso_id;
   const semestre = comunicado.semestre ?? comunicado.semestre_id;
 
@@ -42,18 +38,20 @@ async function listarAlunosDoComunicado(comunicado) {
     return [];
   }
 
+  const alunos = await carregarAlunos({ curso, semestre });
+
   // O cadastro local pode ser trocado por uma chamada ao backend no futuro.
   return alunos
-    .filter((aluno) => corresponde(aluno.curso ?? aluno.curso_id, curso))
-    .filter((aluno) => corresponde(aluno.semestre ?? aluno.semestre_id, semestre))
-    .map((aluno) => telefoneParaJid(aluno.telefone ?? aluno.whatsapp ?? aluno.numero))
+    .filter((aluno) => corresponde(aluno.curso, curso))
+    .filter((aluno) => corresponde(aluno.semestre, semestre))
+    .map((aluno) => telefoneParaJid(aluno.usuario_id))
     .filter(Boolean);
 }
 
 async function buscarAlunoPorJid(jid) {
   const numero = String(jid ?? '').split('@')[0];
   const alunos = await carregarAlunos();
-  return alunos.find((aluno) => String(aluno.telefone ?? aluno.whatsapp ?? aluno.numero).replace(/\D/g, '') === numero) || null;
+  return alunos.find((aluno) => telefoneParaJid(aluno.usuario_id).split('@')[0].replace(/\D/g, '') === numero) || null;
 }
 
 module.exports = {
