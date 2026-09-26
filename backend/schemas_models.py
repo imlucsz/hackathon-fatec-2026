@@ -1,25 +1,48 @@
-from sqlalchemy import Column, Integer, String, DateTime
-from sqlalchemy.sql import func
-from pydantic import BaseModel
-from database import Base
 from datetime import datetime
+from typing import Literal, Optional
+
+from pydantic import BaseModel, ConfigDict
+from sqlalchemy import Boolean, Column, DateTime, Integer, String
+from sqlalchemy.sql import func
+
+from database import Base
 
 class Comunicado(Base):
     __tablename__ = "comunicados"
 
     id = Column(Integer, primary_key=True, index=True)
     mensagem = Column(String, nullable=False)
-    data_publicacao = Column(DateTime(timezone=True), server_default=func.now())
+    curso = Column(String, nullable=False, default="todos")
+    semestre = Column(Integer, nullable=True)
+    categoria = Column(String, nullable=False, default="aviso_geral")
+    enviado = Column(Boolean, default=False, nullable=False)
+    link = Column(String, nullable=True)
+    data_expiracao = Column(DateTime(timezone=True), nullable=True)
+    data_publicacao = Column(DateTime(timezone=True), server_default=func.now(), nullable=False)
 
 class ComunicadoBase(BaseModel):
     mensagem: str
+    curso: str = "todos"
+    semestre: Optional[int] = None
+    categoria: Literal["aula", "prova", "evento_interno", "evento_externo", "aviso_geral"] = "aviso_geral"
+    enviado: bool = False
+    link: Optional[str] = None
+    data_expiracao: Optional[datetime] = None
+
+class ComunicadoAtualizar(BaseModel):
+    mensagem: Optional[str] = None
+    curso: Optional[str] = None
+    semestre: Optional[int] = None
+    categoria: Optional[Literal["aula", "prova", "evento_interno", "evento_externo", "aviso_geral"]] = None
+    enviado: Optional[bool] = None
+    link: Optional[str] = None
+    data_expiracao: Optional[datetime] = None
 
 class ComunicadoResposta(ComunicadoBase):
     id: int
     data_publicacao: datetime
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 class Professor(Base):
     __tablename__ = "professores"
@@ -40,11 +63,68 @@ class ProfessorLogin(BaseModel):
     ra: str
     senha: str
 
+class TokenResposta(BaseModel):
+    access_token: str
+    token_type: str = "bearer"
+
 class ProfessorResposta(BaseModel):
     id: int
     ra: str
     email: str
     disciplina: str
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
+
+class Aluno(Base):
+    __tablename__ = "alunos"
+
+    id = Column(Integer, primary_key=True, index=True)
+    usuario_id = Column(String, unique=True, index=True, nullable=False)
+    curso = Column(String, nullable=False)
+    semestre = Column(Integer, nullable=False)
+
+class AlunoCriar(BaseModel):
+    usuario_id: str
+    curso: str
+    semestre: int
+
+class AlunoResposta(BaseModel):
+    id: int
+    usuario_id: str
+    curso: str
+    semestre: int
+
+    model_config = ConfigDict(from_attributes=True)
+
+class Sugestao(Base):
+    __tablename__ = "sugestoes"
+
+    id = Column(Integer, primary_key=True, index=True)
+    usuario_id = Column(String, nullable=False)
+    curso = Column(String, nullable=False)
+    mensagem = Column(String, nullable=False)
+    data_envio = Column(DateTime(timezone=True), server_default=func.now(), nullable=False)
+
+class SugestaoCriar(BaseModel):
+    usuario_id: str
+    curso: str
+    mensagem: str
+
+class SugestaoResposta(SugestaoCriar):
+    id: int
+    data_envio: datetime
+
+    model_config = ConfigDict(from_attributes=True)
+
+class ChatRequest(BaseModel):
+    mensagem: str
+    usuario_id: str
+    canal: str = "whatsapp"
+
+class ChatResposta(BaseModel):
+    resposta: str
+    status: str
+
+class ErrorResponse(BaseModel):
+    detail: str
+    status_code: int = 400
