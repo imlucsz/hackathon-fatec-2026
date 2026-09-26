@@ -6,7 +6,7 @@ Uso:
     2) rode este script -> python test_mock_api.py
 """
 
-from fastapi import Fastapi
+from fastapi import FastAPI
 from pydantic import BaseModel
 import json
 import time
@@ -115,3 +115,16 @@ if __name__ == "__main__":
     teste_8_api_fora_do_ar()
 
     print_titulo("Testes concluídos. Doc interativa em: http://localhost:8000/docs")
+
+class ChatRequest(BaseModel):
+    mensagem: str
+    usuario_id: str
+    canal: str
+
+@app.post("/api/chat")
+def chat(req: ChatRequest):
+    time.sleep(0.5)
+    return {
+        "resposta": f"[MOCK] Recebi sua mensagem: \"{req.mensagem}\" (canal: {req.canal})...",
+        "status": "sucesso",
+    }
