@@ -1,91 +1,158 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../frontend/estilo.css">
-    <title>Tela de Cadastro</title>
-</head>
-<body>
-    <center><h1>Faça o seu Cadastro</h1></center>
-    <div class="mestre"></div>
-    <center><img src="../Imagens/logo.png" alt="logo"></center>
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="estilo.css" />
+    <title>Cadastro do Professor</title>
+  </head>
+  <body>
+    <div class="page-shell">
+      <h1>Faça o seu cadastro</h1>
+
+      <div class="logo-wrap">
+        <img src="Imagens/logo.png" alt="logo" />
+      </div>
+
+      <form id="registerForm" class="form-container">
+        <select id="cadDisciplina" required>
+          <option value="" disabled selected>Selecione uma matéria</option>
+          <optgroup label="1º Semestre">
+            <option value="Engenharia de Software I">
+              Engenharia de Software I
+            </option>
+            <option value="Sistemas Operacionais e Redes de Computadores">
+              Sistemas Operacionais e Redes de Computadores
+            </option>
+            <option value="Algoritmos e Lógica de Programação">
+              Algoritmos e Lógica de Programação
+            </option>
+            <option value="Desenvolvimento Web I">Desenvolvimento Web I</option>
+            <option value="Design Digital I">Design Digital I</option>
+            <option value="Modelagem de Banco de Dados">
+              Modelagem de Banco de Dados
+            </option>
+          </optgroup>
+          <optgroup label="2º Semestre">
+            <option value="Engenharia de Software II">
+              Engenharia de Software II
+            </option>
+            <option value="Matemática para Computação">
+              Matemática para Computação
+            </option>
+            <option value="Desenvolvimento Web II">
+              Desenvolvimento Web II
+            </option>
+            <option value="Banco de Dados">Banco de Dados</option>
+            <option value="Estrutura de Dados">Estrutura de Dados</option>
+            <option value="Técnicas de Programação">
+              Técnicas de Programação
+            </option>
+          </optgroup>
+          <optgroup label="3º Semestre">
+            <option value="Desenvolvimento Web III">
+              Desenvolvimento Web III
+            </option>
+            <option value="Inglês I">Inglês I</option>
+            <option value="Interação Humano-Computador">
+              Interação Humano-Computador
+            </option>
+            <option value="Técnicas de Programação II">
+              Técnicas de Programação II
+            </option>
+            <option value="Álgebra Linear">Álgebra Linear</option>
+            <option value="Banco de Dados Não Relacional">
+              Banco de Dados Não Relacional
+            </option>
+            <option value="Gestão Ágil de Projetos de Software">
+              Gestão Ágil de Projetos de Software
+            </option>
+          </optgroup>
+          <optgroup label="4º Semestre">
+            <option value="Laboratório de Desenvolvimento Web">
+              Laboratório de Desenvolvimento Web
+            </option>
+            <option value="Experiência do Usuário">
+              Experiência do Usuário
+            </option>
+            <option value="Inglês II">Inglês II</option>
+            <option value="Programação de Dispositivos Móveis">
+              Programação de Dispositivos Móveis
+            </option>
+            <option value="Estatística Aplicada">Estatística Aplicada</option>
+            <option value="Internet das Coisas">Internet das Coisas</option>
+            <option value="Integração e Entrega Contínua">
+              Integração e Entrega Contínua
+            </option>
+          </optgroup>
+          <optgroup label="5º Semestre">
+            <option value="Programação para Dispositivos Móveis II">
+              Programação para Dispositivos Móveis II
+            </option>
+            <option value="Aprendizagem de Máquina">
+              Aprendizagem de Máquina
+            </option>
+            <option
+              value="Laboratório de Desenvolvimento para Dispositivos Móveis"
+            >
+              Laboratório de Desenvolvimento para Dispositivos Móveis
+            </option>
+            <option value="Segurança no Desenvolvimento de Aplicações">
+              Segurança no Desenvolvimento de Aplicações
+            </option>
+            <option value="Computação em Nuvem I">Computação em Nuvem I</option>
+            <option value="Inglês III">Inglês III</option>
+            <option value="Fundamentos de Redação Técnica">
+              Fundamentos de Redação Técnica
+            </option>
+          </optgroup>
+          <optgroup label="6º Semestre">
+            <option value="Processamento de Linguagem Natural">
+              Processamento de Linguagem Natural
+            </option>
+            <option value="Qualidade de Testes de Software">
+              Qualidade de Testes de Software
+            </option>
+            <option value="Computação em Nuvem II">
+              Computação em Nuvem II
+            </option>
+            <option value="Mineração de Dados">Mineração de Dados</option>
+            <option value="Laboratório de Desenvolvimento Multiplataforma">
+              Laboratório de Desenvolvimento Multiplataforma
+            </option>
+            <option value="Ética Profissional e Patente">
+              Ética Profissional e Patente
+            </option>
+            <option value="Inglês IV">Inglês IV</option>
+          </optgroup>
+        </select>
+
+        <input
+          id="cadEmail"
+          type="email"
+          placeholder="Digite seu e-mail"
+          required
+        />
+        <input
+          id="cadSenha"
+          type="password"
+          placeholder="Digite sua senha"
+          required
+        />
+        <input id="cadRa" type="text" placeholder="Digite seu RA" required />
+
+        <div class="button-group">
+          <button type="submit" class="btn-register">Cadastrar</button>
+        </div>
+
+        <p id="registerStatus" class="status-message" style="display: none"></p>
+
+        <div class="link-row">
+          <a href="LoginProf.html" class="link-button">Já tenho conta</a>
+        </div>
+      </form>
     </div>
-    
-<div class="form-container">
-    <!-- 3 Inputs -->
-      <!-- Select com 5 espaços/opções -->
-  <!-- Select com as matérias divididas por semestre -->
-    <select name="meu_select" id="meu_select">
-      <option value="" disabled selected>Selecione uma matéria</option>
-      
-      <optgroup label="1º Semestre">
-          <option value="Engenharia de Software I">Engenharia de Software I</option>
-          <option value="Sistemas Operacionais e Redes de Computadores">Sistemas Operacionais e Redes de Computadores</option>
-          <option value="Algoritmos e Lógica de Programação">Algoritmos e Lógica de Programação</option>
-          <option value="Desenvolvimento Web I">Desenvolvimento Web I</option>
-          <option value="Design Digital I">Design Digital I</option>
-          <option value="Modelagem de Banco de Dados">Modelagem de Banco de Dados</option>
-      </optgroup>
 
-      <optgroup label="2º Semestre">
-          <option value="Engenharia de Software II">Engenharia de Software II</option>
-          <option value="Matemática para Computação">Matemática para Computação</option>
-          <option value="Desenvolvimento Web II">Desenvolvimento Web II</option>
-          <option value="Banco de Dados">Banco de Dados</option>
-          <option value="Estrutura de Dados">Estrutura de Dados</option>
-          <option value="Técnicas de Programação">Técnicas de Programação</option>
-      </optgroup>
-
-      <optgroup label="3º Semestre">
-          <option value="Desenvolvimento Web III">Desenvolvimento Web III</option>
-          <option value="Inglês I">Inglês I</option>
-          <option value="Interação Humano-Computador">Interação Humano-Computador</option>
-          <option value="Técnicas de Programação II">Técnicas de Programação II</option>
-          <option value="Álgebra Linear">Álgebra Linear</option>
-          <option value="Banco de Dados Não Relacional">Banco de Dados Não Relacional</option>
-          <option value="Gestão Ágil de Projetos de Software">Gestão Ágil de Projetos de Software</option>
-      </optgroup>
-
-      <optgroup label="4º Semestre">
-          <option value="Laboratório de Desenvolvimento Web">Laboratório de Desenvolvimento Web</option>
-          <option value="Experiência do Usuário">Experiência do Usuário</option>
-          <option value="Inglês II">Inglês II</option>
-          <option value="Programação de Dispositivos Móveis">Programação de Dispositivos Móveis</option>
-          <option value="Estatística Aplicada">Estatística Aplicada</option>
-          <option value="Internet das Coisas">Internet das Coisas</option>
-          <option value="Integração e Entrega Contínua">Integração e Entrega Contínua</option>
-      </optgroup>
-
-      <optgroup label="5º Semestre">
-          <option value="Programação para Dispositivos Móveis II">Programação para Dispositivos Móveis II</option>
-          <option value="Aprendizagem de Máquina">Aprendizagem de Máquina</option>
-          <option value="Laboratório de Desenvolvimento para Dispositivos Móveis">Laboratório de Desenvolvimento para Dispositivos Móveis</option>
-          <option value="Segurança no Desenvolvimento de Aplicações">Segurança no Desenvolvimento de Aplicações</option>
-          <option value="Computação em Nuvem I">Computação em Nuvem I</option>
-          <option value="Inglês III">Inglês III</option>
-          <option value="Fundamentos de Redação Técnica">Fundamentos de Redação Técnica</option>
-      </optgroup>
-
-      <optgroup label="6º Semestre">
-          <option value="Processamento de Linguagem Natural">Processamento de Linguagem Natural</option>
-          <option value="Qualidade de Testes de Software">Qualidade de Testes de Software</option>
-          <option value="Computação em Nuvem II">Computação em Nuvem II</option>
-          <option value="Mineração de Dados">Mineração de Dados</option>
-          <option value="Laboratório de Desenvolvimento Multiplataforma">Laboratório de Desenvolvimento Multiplataforma</option>
-          <option value="Ética Profissional e Patente">Ética Profissional e Patente</option>
-          <option value="Inglês IV">Inglês IV</option>
-      </optgroup>
-    </select>
-
-    <input type="text" placeholder="Digite seu e-mail">
-    <input type="email" placeholder="Digite sua senha">
-    <input type="password" placeholder="Digite seu RA">
-   
-  </div>
-  <div class="button-group">
-      <button type="button" class="btn-register">Cadastrar</button>
-    </div>
-
-</body>
+    <script src="app.js"></script>
+  </body>
 </html>
