@@ -20,7 +20,7 @@ O bot não inicia conversas comuns. A única exceção é o envio ativo de um co
 
 | Nome | Papel / função | GitHub / contato |
 | :--- | :--- | :--- |
-| Lucas | Tech Lead / Arquiteto / IA e suporte geral | A definir |
+| Lucas| Tech Lead / Arquiteto / IA e suporte geral | A definir |
 | Gael | Back-end Web e API Core (FastAPI) | A definir |
 | Thiago | Back-end WhatsApp e automação | A definir |
 | Cauê | Front-end Web e UI | A definir |
@@ -90,6 +90,7 @@ Nunca publique o arquivo `.env` ou uma chave de API. O arquivo está listado no 
 Na raiz do projeto, em um terminal:
 
 ```bash
+cd backend
 venv/bin/uvicorn main:app --app-dir whatsapp-bot --reload --port 8000
 ```
 
@@ -105,7 +106,7 @@ Em outro terminal:
 ```bash
 cd whatsapp-bot/whatsapp-baileys
 npm install
-npm run bridge
+npm.cmd run bridge
 ```
 
 Escaneie o QR Code pelo WhatsApp em **Configurações > Aparelhos conectados > Conectar um aparelho**.
