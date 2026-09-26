@@ -1,0 +1,68 @@
+
+body{
+background-color: #D0ABAB;
+
+}
+.quadro-board {
+    /* Substitua pelo caminho onde você salvou a imagem do quadro verde */
+    background-image: url('../Imagens/quadro.png'); 
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    background-position: center;
+    width: 100%;
+    max-width: 800px;
+    height: 600px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-sizing: border-box;
+    padding: 60px 40px;
+    margin: 20px auto;
+}
+
+/* Título 'comunicados' */
+.quadro-titulo {
+    color: #ffffff;
+    font-size: 32px;
+    font-weight: normal;
+    margin-top: 20px;
+    margin-bottom: 30px;
+    text-align: center;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Conteiner das mensagens */
+.quadro-mensagens {
+    width: 75%;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+/* Blocos de mensagens (retângulos cinzas) */
+.mensagem-card {
+    background-color: #dcdcdc;
+    color: #111111;
+    text-align: center;
+    padding: 12px 15px;
+    font-size: 20px;
+    border-radius: 2px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Botão '+Adicionar Avisos' */
+.btn-add-aviso {
+    background: transparent;
+    border: none;
+    color: #000000;
+    font-size: 20px;
+    font-weight: 500;
+    margin-top: 25px;
+    cursor: pointer;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.btn-add-aviso:hover {
+    transform: scale(1.05);
+    opacity: 0.8;
+}
